@@ -1,0 +1,88 @@
+<!DOCTYPE html><!-- Copyright (c) 2021 YA-androidapp(https://github.com/YA-androidapp) All rights reserved. -->
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <title>Base64</title>
+    <meta name="description" content="image files => Base64">
+    <meta name="author" content="YA-androidapp">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="">
+
+    <style type="text/css">
+        body {
+            height: 600px;
+            width: 600px;
+        }
+
+        #drop-area {
+            border: 3px solid rgb(0, 255, 200);
+            color: rgb(0, 255, 200);
+            height: 300px;
+            padding: 10px;
+            width: 600px;
+        }
+
+        #result-area {
+            height: 300px;
+            width: 600px;
+        }
+
+        img {
+            height: 300px;
+            width: 300px;
+        }
+
+        textarea {
+            height: 300px;
+            width: 270px;
+        }
+    </style>
+</head>
+
+<!-- for Firefox: `firefox.exe -no-deelevate` -->
+
+<body>
+
+    <div id="drop-area">
+        Drop files here:
+    </div>
+    <div id="result-area">
+    </div>
+
+    <script>
+        const targetFormats = ['image/jpeg', 'image/png', 'image/gif'];
+        const targets = new RegExp(targetFormats.join('|'))
+
+        window.addEventListener('load', function () {
+            document.getElementById('drop-area').addEventListener('dragover', function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+                evt.dataTransfer.dropEffect = 'copy';
+            });
+            document.getElementById('drop-area').addEventListener('drop', function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+                var files = evt.dataTransfer.files;
+                for (var i = 0; i < files.length; i++) {
+                    var reader = new FileReader();
+                    reader.onload = function (evt) {
+                        console.log('evt', evt);
+                        const dataUrl = evt.target.result;
+
+                        console.log(targets.test(dataUrl))
+                        if (targets.test(dataUrl)) {
+                            const base64String = dataUrl.replace(/data:.*\/.*;base64,/, '');
+                            document.getElementById('result-area').innerHTML = '<div><img onclick="if(navigator.clipboard){navigator.clipboard.writeText(this.src);}" src="' + dataUrl + '"><textarea onclick="this.select();if(navigator.clipboard){navigator.clipboard.writeText(this.value);}">' + base64String + '</textarea></div>' +
+                                document.getElementById('result-area').innerHTML;
+                        }
+                    };
+                    reader.readAsDataURL(files[i]);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
