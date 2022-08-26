@@ -46,13 +46,21 @@
 <body>
 
     <div id="drop-area">
-        Drop files here:
+        Drop image files here:
     </div>
     <div id="result-area">
     </div>
 
     <script>
-        const targetFormats = ['image/jpeg', 'image/png', 'image/gif'];
+        const targetFormats = [
+            'image/bmp',
+            'image/gif',
+            'image/jpeg',
+            'image/png',
+            'image/svg+xml',
+            'image/tiff',
+            'image/vnd.mozilla.apng',
+        ];
         const targets = new RegExp(targetFormats.join('|'))
 
         window.addEventListener('load', function () {
@@ -73,7 +81,7 @@
 
                         console.log(targets.test(dataUrl))
                         if (targets.test(dataUrl)) {
-                            const base64String = dataUrl.replace(/data:.*\/.*;base64,/, '');
+                            const base64String = dataUrl; // .replace(/data:.*\/.*;base64,/, '');
                             document.getElementById('result-area').innerHTML = '<div><img onclick="if(navigator.clipboard){navigator.clipboard.writeText(this.src);}" src="' + dataUrl + '"><textarea onclick="this.select();if(navigator.clipboard){navigator.clipboard.writeText(this.value);}">' + base64String + '</textarea></div>' +
                                 document.getElementById('result-area').innerHTML;
                         }
