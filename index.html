@@ -1,96 +1,149 @@
-<!DOCTYPE html><!-- Copyright (c) 2021 YA-androidapp(https://github.com/YA-androidapp) All rights reserved. -->
-<html>
+<!doctype html>
+<html lang="ja">
+<!-- for Firefox: `firefox.exe -no-deelevate` -->
 
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
-    <title>Base64</title>
-    <meta name="description" content="image files => Base64">
-    <meta name="author" content="YA-androidapp">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="">
+    <title>base64</title>
+    <meta name="description" content="base64">
+    <meta name="author" content="YA-androidapp(https://github.com/YA-androidapp)">
 
-    <style type="text/css">
-        body {
-            height: 600px;
-            width: 600px;
-        }
-
-        #drop-area {
-            border: 3px solid rgb(0, 255, 200);
-            color: rgb(0, 255, 200);
-            height: 300px;
-            padding: 10px;
-            width: 600px;
-        }
-
-        #result-area {
-            height: 300px;
-            width: 600px;
-        }
-
-        img {
-            height: 300px;
-            width: 300px;
-        }
-
-        textarea {
-            height: 300px;
-            width: 270px;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="css/app.css" rel="stylesheet">
 </head>
-
-<!-- for Firefox: `firefox.exe -no-deelevate` -->
 
 <body>
 
-    <div id="drop-area">
-        Drop image files here:
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                base64
+            </a>
+        </div>
+    </nav>
+
+    <!-- Accordion -->
+    <div class="container my-5">
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingimage2base64">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseimage2base64" aria-expanded="true"
+                        aria-controls="collapseimage2base64">
+                        image2base64
+                    </button>
+                </h2>
+                <div id="collapseimage2base64" class="accordion-collapse collapse show"
+                    aria-labelledby="headingimage2base64" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="container my-5">
+                            <div class="row">
+                                <div class="col-2 offset-1 text-start">
+                                    <label for="drop-area" class="form-label">
+                                        File
+                                    </label>
+                                </div>
+                                <div class="col-8">
+                                    <div id="drop-area">
+                                        Drop image files here:
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-2 offset-1 text-start">
+                                    Result
+                                </div>
+                                <div class="col-8">
+                                    <div id="result-encoded">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingbase642image">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapsebase642image" aria-expanded="false"
+                        aria-controls="collapsebase642image">
+                        base642image
+                    </button>
+                </h2>
+                <div id="collapsebase642image" class="accordion-collapse collapse" aria-labelledby="headingbase642image"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="container my-5">
+                            <div class="row">
+                                <div class="col-2 offset-1 text-start">
+                                    <label for="todecode" class="form-label">
+                                        Base64
+                                    </label>
+                                </div>
+                                <div class="col-8">
+                                    <textarea class="form-control" id="todecode" rows="6"
+                                        placeholder="data:image/png;base64,..."></textarea>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-2 offset-1 text-start">
+                                    Result
+                                </div>
+                                <div class="col-8">
+                                    <div id="result-decoded">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingbase64text">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapsebase64text" aria-expanded="false" aria-controls="collapsebase64text">
+                        base64text
+                    </button>
+                </h2>
+                <div id="collapsebase64text" class="accordion-collapse collapse" aria-labelledby="headingbase64text"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="container my-5">
+                            <div class="row">
+                                <div class="col-3 offset-3 text-start">
+                                    <textarea class="form-control" id="textPlain" rows="6"
+                                        placeholder="あいうえお"></textarea>
+                                </div>
+                                <div class="col-3">
+                                    <textarea class="form-control" id="textBase64" rows="6"
+                                        placeholder="44GC44GE44GG44GI44GK"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="result-area">
+
+    <!-- Footer -->
+    <div class="container mt-5">
+        <footer class="footer align-bottom text-muted text-center">
+            Copyright &copy;
+            <script type="text/javascript"> document.write(new Date().getFullYear());</script>
+            <a href="https://github.com/YA-androidapp" target="_blank">YA-androidapp</a> All rights reserved.
+        </footer>
     </div>
 
-    <script>
-        const targetFormats = [
-            'image/bmp',
-            'image/gif',
-            'image/jpeg',
-            'image/png',
-            'image/svg+xml',
-            'image/tiff',
-            'image/vnd.mozilla.apng',
-        ];
-        const targets = new RegExp(targetFormats.join('|'))
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 
-        window.addEventListener('load', function () {
-            document.getElementById('drop-area').addEventListener('dragover', function (evt) {
-                evt.stopPropagation();
-                evt.preventDefault();
-                evt.dataTransfer.dropEffect = 'copy';
-            });
-            document.getElementById('drop-area').addEventListener('drop', function (evt) {
-                evt.stopPropagation();
-                evt.preventDefault();
-                var files = evt.dataTransfer.files;
-                for (var i = 0; i < files.length; i++) {
-                    var reader = new FileReader();
-                    reader.onload = function (evt) {
-                        console.log('evt', evt);
-                        const dataUrl = evt.target.result;
-
-                        console.log(targets.test(dataUrl))
-                        if (targets.test(dataUrl)) {
-                            const base64String = dataUrl; // .replace(/data:.*\/.*;base64,/, '');
-                            document.getElementById('result-area').innerHTML = '<div><img onclick="if(navigator.clipboard){navigator.clipboard.writeText(this.src);}" src="' + dataUrl + '"><textarea onclick="this.select();if(navigator.clipboard){navigator.clipboard.writeText(this.value);}">' + base64String + '</textarea></div>' +
-                                document.getElementById('result-area').innerHTML;
-                        }
-                    };
-                    reader.readAsDataURL(files[i]);
-                }
-            });
-        });
-    </script>
+    <script src="js/base64.js"></script>
 </body>
 
 </html>
+<!-- Copyright (c) 2022 YA-androidapp(https://github.com/YA-androidapp) All rights reserved. -->
