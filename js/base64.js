@@ -1,4 +1,7 @@
+// Copyright (c) 2022 YA-androidapp(https://github.com/YA-androidapp) All rights reserved.
 
+
+const png1x1 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAASDVlMcAAAAASUVORK5CYII=';
 const targetFormats = [
     'image/bmp',
     'image/gif',
@@ -29,7 +32,7 @@ function decode(message, mimetype = 'image/png') {
     return fetch(((message.startsWith('data:')) ? '' : 'data:' + mimetype + ';base64,') + message).then(response => response.blob());
 }
 
-window.addEventListener('load', function () {
+window.addEventListener('DOMContentLoaded', _ => {
     document.getElementById('drop-area').addEventListener('dragover', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
@@ -38,18 +41,15 @@ window.addEventListener('load', function () {
     document.getElementById('drop-area').addEventListener('drop', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
-        var files = evt.dataTransfer.files;
+        const files = evt.dataTransfer.files;
         for (var i = 0; i < files.length; i++) {
-            var reader = new FileReader();
+            const reader = new FileReader();
             reader.onload = function (evt) {
-                console.log('evt', evt);
                 const dataUrl = evt.target.result;
-
-                console.log(targets.test(dataUrl))
                 if (targets.test(dataUrl)) {
                     document.getElementById('result-encoded').innerHTML = '<div><img onclick="if(navigator.clipboard){navigator.clipboard.writeText(this.src);}" src="' +
                         dataUrl +
-                        '"><textarea id="encoded" onclick="this.select();if(navigator.clipboard){navigator.clipboard.writeText(this.value);}">' +
+                        '"><textarea class="form-control" id="encoded" onclick="this.select();if(navigator.clipboard){navigator.clipboard.writeText(this.value);}">' +
                         dataUrl +
                         '</textarea></div>' +
                         document.getElementById('result-encoded').innerHTML;
@@ -68,13 +68,45 @@ window.addEventListener('load', function () {
     });
 
     document.getElementById('textPlain').addEventListener('keyup', async function () {
-        encoded = await encode(document.getElementById('textPlain').value);
+        const encoded = await encode(document.getElementById('textPlain').value);
         document.getElementById('textBase64').value = encoded;
     });
 
     document.getElementById('textBase64').addEventListener('keyup', async function () {
-        decoded = await decodeText(document.getElementById('textBase64').value);
+        const decoded = await decodeText(document.getElementById('textBase64').value);
         console.log('decoded', decoded)
         document.getElementById('textPlain').value = decoded;
+    });
+
+    document.getElementById('remote-img').addEventListener('load', function (event) {
+        let img = event.target;
+        if (img.src != png1x1) {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            const context = canvas.getContext('2d');
+            context.drawImage(img, 0, 0);
+            const dataUrl = canvas.toDataURL();
+            if (targets.test(dataUrl)) {
+                document.getElementById('result-encoded').innerHTML = '<div><img onclick="if(navigator.clipboard){navigator.clipboard.writeText(this.src);}" src="' +
+                    dataUrl +
+                    '"><textarea class="form-control" id="encoded" onclick="this.select();if(navigator.clipboard){navigator.clipboard.writeText(this.value);}">' +
+                    dataUrl +
+                    '</textarea></div>' +
+                    document.getElementById('result-encoded').innerHTML;
+            }
+
+            // canvas.toBlob(function (blob) {
+            //     const link = document.createElement('a');
+            //     link.download = 'out.png';
+            //     link.href = URL.createObjectURL(blob);
+            //     link.click();
+            //     URL.revokeObjectURL(link.href);
+            // }, 'image/png');
+        }
+    }, false);
+
+    document.getElementById('remote-img-url').addEventListener('keyup', async function (event) {
+        document.getElementById('remote-img').src = event.target.value;
     });
 });

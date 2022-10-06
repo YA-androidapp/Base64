@@ -9,6 +9,16 @@
     width: 90%;
 }
 
+#remote-img {
+    height: 24px;
+    width: 24px;
+}
+
+#remote-img-url {
+    border: 3px solid rgb(0, 255, 200);
+    width: 90%;
+}
+
 #result-encoded {
     height: 95%;
     width: 95%;
@@ -21,7 +31,8 @@ img {
 }
 
 textarea {
-    height: 200px;
-    width: 180px;
+    display: inline !important;
+    height: 200px !important;
+    width: 480px !important;
     vertical-align: middle;
 }

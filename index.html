@@ -43,6 +43,26 @@
                             <div class="row">
                                 <div class="col-2 offset-1 text-start">
                                     <label for="drop-area" class="form-label">
+                                        URL
+                                    </label>
+                                </div>
+                                <div class="col-8">
+                                    <input type="url" id="remote-img-url" class="form-control" value=""
+                                        placeholder="https://avatars.githubusercontent.com/u/9039417?v=4">
+                                </div>
+                                <div class="col-1">
+                                    <img id="remote-img" crossorigin="anonymous" src=""
+                                        onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAASDVlMcAAAAASUVORK5CYII='">
+                                </div>
+                            </div>
+                            <div class="row my-3">
+                                <div class="col-2 offset-1 text-start">
+                                    or
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2 offset-1 text-start">
+                                    <label for="drop-area" class="form-label">
                                         File
                                     </label>
                                 </div>
@@ -52,7 +72,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-1">
+                            <div class="row mt-5">
                                 <div class="col-2 offset-1 text-start">
                                     Result
                                 </div>
