@@ -1,6 +1,7 @@
 // Copyright (c) 2022 YA-androidapp(https://github.com/YA-androidapp) All rights reserved.
 
 
+const ignoreformat = 'ignoreformat';
 const png1x1 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQI12NgYAAAAAMAASDVlMcAAAAASUVORK5CYII=';
 const targetFormats = [
     'image/bmp',
@@ -41,12 +42,15 @@ window.addEventListener('DOMContentLoaded', _ => {
     document.getElementById('drop-area').addEventListener('drop', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
+
+        const searchParams = new URLSearchParams(window.location.search)
+
         const files = evt.dataTransfer.files;
         for (var i = 0; i < files.length; i++) {
             const reader = new FileReader();
             reader.onload = function (evt) {
                 const dataUrl = evt.target.result;
-                if (targets.test(dataUrl)) {
+                if (searchParams.has(ignoreformat) || targets.test(dataUrl)) {
                     document.getElementById('result-encoded').innerHTML = '<div><img onclick="if(navigator.clipboard){navigator.clipboard.writeText(this.src);}" src="' +
                         dataUrl +
                         '"><textarea class="form-control" id="encoded" onclick="this.select();if(navigator.clipboard){navigator.clipboard.writeText(this.value);}">' +
