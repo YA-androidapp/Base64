@@ -39,13 +39,11 @@ window.addEventListener('DOMContentLoaded', _ => {
         evt.preventDefault();
         evt.dataTransfer.dropEffect = 'copy';
     });
-    document.getElementById('drop-area').addEventListener('drop', function (evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
 
-        const searchParams = new URLSearchParams(window.location.search)
 
-        const files = evt.dataTransfer.files;
+    const loadFiles = (files) => {
+        const searchParams = new URLSearchParams(window.location.search);
+
         for (var i = 0; i < files.length; i++) {
             const reader = new FileReader();
             reader.onload = function (evt) {
@@ -61,6 +59,20 @@ window.addEventListener('DOMContentLoaded', _ => {
             };
             reader.readAsDataURL(files[i]);
         }
+    };
+
+    document.getElementById('drop-area').addEventListener('drop', function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+
+        const files = evt.dataTransfer.files;
+        loadFiles(files);
+    });
+
+
+    document.getElementById('base64files').addEventListener('change', (event) => {
+        const files = Array.from(event.target.files);
+        loadFiles(files);
     });
 
     document.getElementById('todecode').addEventListener('change', async function () {
